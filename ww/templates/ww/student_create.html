@@ -1,0 +1,31 @@
+{% extends 'ww/base.html' %}
+{% block title %}Student create{% endblock %}
+
+{% block content %}
+    <form action="{% url 'student_create' %}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <label for="firstName">First name:</label>
+        <input type="text" id="firstName" name="first_name">
+        <br>
+        <label for="lastName">Last name:</label>
+        <input type="text" id="lastName" name="last_name">
+        <br>
+        <label for="age">Age:</label>
+        <input type="text" id="age" name="age">
+        <br>
+        <label for="description">Description:</label>
+        <textarea id="description" name="description"></textarea>
+        <br>
+        <label for="file">Select:</label>
+        <input type="file" id="file" name="photo">
+        <br>
+        <label for="klass">Class:</label>
+        <select name="klass" id="klass">
+            {% for klass in klasses %}
+                <option value="{{ klass.id }}">{{ klass }}</option>
+            {% endfor %}
+        </select>
+        <br>
+        <input type="submit" value="Create">
+    </form>
+{% endblock %}

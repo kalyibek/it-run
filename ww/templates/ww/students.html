@@ -1,0 +1,13 @@
+{% extends 'ww/base.html' %}
+{% block title %}Students{% endblock %}
+
+{% block content %}
+    {% for student in students %}
+        <a style="font-size: 20px" href="{% url 'student_detail' student.pk %}">
+            {{ student.first_name }} {{ student.last_name }}
+        </a>
+        <br>
+    {% endfor %}
+    <br>
+    <a href="{% url 'student_create' %}">Create new</a>
+{% endblock %}
