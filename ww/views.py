@@ -46,3 +46,25 @@ def student_delete(request, pk):
     student.photo.delete()
     student.delete()
     return redirect('/')
+
+
+def student_update(request, pk):
+    student = models.Student.objects.get(pk=pk)
+    if request.method == 'POST':
+        klass = models.Klass.objects.get(pk=request.POST['klass'])
+        student.first_name = request.POST['first_name']
+        student.last_name = request.POST['last_name']
+        student.age = request.POST['age']
+        student.characteristics = request.POST['description']
+        student.photo = request.FILES['photo']
+        student.klass = klass
+
+        student.save()
+        return redirect('student_detail', pk=pk)
+
+    klasses = models.Klass.objects.all()
+    context = {
+        'student': student,
+        'klasses': klasses
+    }
+    return render(request, 'ww/student_update.html', context)
