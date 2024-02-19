@@ -8,4 +8,5 @@
     <p>{{ student.description }}</p>
     <p>{{ student.klass }}</p>
     <a href="{% url 'student_delete' student.id %}">DELETE</a>
+    <a href="{% url 'student_update' student.id %}">UPDATE</a>
 {% endblock %}
