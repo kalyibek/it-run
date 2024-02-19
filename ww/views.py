@@ -1,5 +1,6 @@
+import os
 from django.shortcuts import render, redirect, get_object_or_404
-from . import models
+from . import models, forms
 
 
 def students_list(request):
@@ -46,3 +47,33 @@ def student_delete(request, pk):
     student.photo.delete()
     student.delete()
     return redirect('/')
+
+
+def student_update(request, pk):
+    if request.method == 'POST':
+        klass = models.Klass.objects.get(pk=request.POST['klass'])
+        student = models.Student.objects.filter(pk=pk).update(
+            first_name=request.POST['first_name'],
+            last_name=request.POST['last_name'],
+            klass=klass,
+            age=request.POST['age'],
+            description=request.POST['description']
+        )
+        old_photo = models.Student.objects.get(pk=pk)
+        form = forms.ImageForm(request.POST, request.FILES, instance=old_photo)
+        if form.is_valid():
+            image_path = old_photo.photo.path
+            if os.path.exists(image_path):
+                os.remove(image_path)
+            form.save()
+
+        return redirect('/')
+
+    last_student = models.Student.objects.get(pk=pk)
+    klasses = models.Klass.objects.all()
+    context = {
+        'last_student': last_student,
+        'klasses': klasses
+    }
+
+    return render(request, 'ww/student_update.html', context)
