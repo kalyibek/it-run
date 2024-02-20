@@ -1,31 +1,41 @@
 {% extends 'ww/base.html' %}
+{% load static %}
 {% block title %}Student create{% endblock %}
 
 {% block content %}
-    <form action="{% url 'student_create' %}" method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
-        <label for="firstName">First name:</label>
-        <input type="text" id="firstName" name="first_name">
-        <br>
-        <label for="lastName">Last name:</label>
-        <input type="text" id="lastName" name="last_name">
-        <br>
-        <label for="age">Age:</label>
-        <input type="text" id="age" name="age">
-        <br>
-        <label for="description">Description:</label>
-        <textarea id="description" name="description"></textarea>
-        <br>
-        <label for="file">Select:</label>
-        <input type="file" id="file" name="photo">
-        <br>
-        <label for="klass">Class:</label>
-        <select name="klass" id="klass">
-            {% for klass in klasses %}
-                <option value="{{ klass.id }}">{{ klass }}</option>
-            {% endfor %}
-        </select>
-        <br>
-        <input type="submit" value="Create">
-    </form>
+    <div class="container_create">
+        <h1>Add new student</h1>
+        <form action="{% url 'student_create' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="first_name">First name:</label>
+                <input type="text" id="first_name" name="first_name" required>
+            </div>
+            <div class="form-group">
+                <label for="last_name">Last name:</label>
+                <input type="text" id="last_name" name="last_name" required>
+            </div>
+            <div class="form-group">
+                <label for="age">Age:</label>
+                <input type="number" id="age" name="age" required>
+            </div>
+            <div class="form-group">
+                <label for="characteristics">Description:</label>
+                <textarea id="characteristics" name="description"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="photo">Photo:</label>
+                <input type="file" id="photo" name="photo">
+            </div>
+            <div class="form-group">
+                <label for="group">Class:</label>
+                <select id="group" name="klass">
+                    {% for klass in klasses %}
+                        <option value="{{ klass.id }}">{{ klass }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button type="submit">Добавить студента</button>
+        </form>
+    </div>
 {% endblock %}

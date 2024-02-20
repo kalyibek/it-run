@@ -41,8 +41,29 @@ def student_create(request):
     )
 
 
+def student_update(request, pk):
+    student = get_object_or_404(models.Student, pk=pk)
+    klasses = models.Klass.objects.all()
+    if request.method == 'POST':
+        student.first_name = request.POST['first_name']
+        student.last_name = request.POST['last_name']
+        student.age = request.POST['age']
+        student.description = request.POST['description']
+        student.photo = request.FILES['photo']
+        student.klass = get_object_or_404(models.Klass, pk=request.POST['klass'])
+        student.save()
+        return redirect('/')
+
+    return render(
+        request,
+        'ww/student_update.html',
+        {'klasses': klasses, 'student': student}
+    )
+
+
 def student_delete(request, pk):
     student = get_object_or_404(models.Student, pk=pk)
     student.photo.delete()
     student.delete()
     return redirect('/')
+

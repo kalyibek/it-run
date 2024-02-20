@@ -1,11 +1,26 @@
 {% extends 'ww/base.html' %}
+{% load static %}
 {% block title %}Student{% endblock %}
 
 {% block content %}
-    <img src="{{ student.photo.url }}" alt="{{ student.first_name }}">
-    <h2>Name: {{ student.first_name }} {{ student.last_name }}</h2>
-    <h2>Age: {{ student.age }}</h2>
-    <p>{{ student.description }}</p>
-    <p>{{ student.klass }}</p>
-    <a href="{% url 'student_delete' student.id %}">DELETE</a>
+    <div class="container_detail">
+        <h1>Student information</h1>
+        <div class="student-info">
+            <div class="student-photo">
+                <img src="{{ student.photo.url }}" alt="Фото студента">
+            </div>
+            <div class="student-details">
+                <p><strong>First name:</strong> {{ student.first_name }}</p>
+                <p><strong>Last name:</strong> {{ student.last_name }}</p>
+                <p><strong>Age:</strong> {{ student.age }}</p>
+                <p><strong>Description:</strong> {{ student.description }}</p>
+                <p><strong>Class:</strong> {{ student.klass }}</p>
+            </div>
+        </div>
+        <div class="buttons">
+            <a href="{% url 'student_update' student.pk %}" class="button green">Update</a>
+            <a href="{% url 'student_delete' student.pk %}" class="button red">Delete</a>
+        </div>
+        <a href="{% url 'student_list' %}" class="button">Back</a>
+    </div>
 {% endblock %}
